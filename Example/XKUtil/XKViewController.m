@@ -7,6 +7,7 @@
 //
 
 #import "XKViewController.h"
+#import "XKCountingViewController.h"
 
 @interface XKViewController ()
 
@@ -18,6 +19,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.navigationController pushViewController:[XKCountingViewController new] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
