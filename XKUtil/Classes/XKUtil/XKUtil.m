@@ -52,7 +52,73 @@
         !cancelHandler ?: cancelHandler();
     });
     dispatch_resume(timer);
+    
     return timer;
+}
+
+//MARK: 获取APP缓存
++ (NSString *)xk_appCacheSize {
+    
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).lastObject;
+    path = [path stringByAppendingPathComponent:@"Caches"];
+    long long size = [self folderSizeAtPath:path];
+    if (size < 1000.0) {
+        return [NSString stringWithFormat:@"%lldB", size];
+    }
+    long long realSize = size / 1000.0 / 1000.0;
+    if (realSize >= 1.0) {
+        return [NSString stringWithFormat:@"%lldM", realSize];
+    }
+    else {
+        return [NSString stringWithFormat:@"%fKB", size / 1000.0];
+    }
+}
+
+//MARK: 单个文件大小
++ (long long)fileSizeAtPath:(NSString*) filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+//MARK: 遍历文件夹获得文件夹大小，返回字节
++ (long long)folderSizeAtPath:(NSString*) folderPath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath])
+        return 0;
+    NSString* fileName = [folderPath copy];
+    long long folderSize = 0;
+   
+    BOOL isdir;
+    [manager fileExistsAtPath:fileName isDirectory:&isdir];
+    if (isdir != YES) {
+        return [self fileSizeAtPath:fileName];
+    }
+    else {
+        NSArray * items = [manager contentsOfDirectoryAtPath:fileName error:nil];
+        for (int i =0; i<items.count; i++) {
+            BOOL subisdir;
+            NSString* fileAbsolutePath = [fileName stringByAppendingPathComponent:items[i]];
+
+            [manager fileExistsAtPath:fileAbsolutePath isDirectory:&subisdir];
+            if (subisdir==YES) {
+                folderSize += [self folderSizeAtPath:fileAbsolutePath]; //文件夹就递归计算
+            }
+            else {
+                folderSize += [self fileSizeAtPath:fileAbsolutePath];//文件直接计算
+            }
+        }
+    }
+    return folderSize;
+}
+//MARK: 清理缓存
++ (void)xk_clearCaches {
+    
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).lastObject;
+    path = [path stringByAppendingPathComponent:@"Caches"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
 }
 
 @end

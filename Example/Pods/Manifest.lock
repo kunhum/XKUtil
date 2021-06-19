@@ -1,27 +1,16 @@
 PODS:
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
   - XKUtil (1.0.0)
 
 DEPENDENCIES:
-  - FBSnapshotTestCase
   - XKUtil (from `../`)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - FBSnapshotTestCase
 
 EXTERNAL SOURCES:
   XKUtil:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  XKUtil: bc0bcc04d5154783d67b62e8443830062449d4e6
+  XKUtil: 394738211346fb20b167b6e6b90910d16d40532e
 
-PODFILE CHECKSUM: 55a96edc78347000067397480146a190f7aa1ce6
+PODFILE CHECKSUM: 964b564c8875ef42967c31239afd0c741181bab8
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.10.1
